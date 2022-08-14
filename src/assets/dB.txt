@@ -1,0 +1,6 @@
+Host 	  ec2-44-194-225-27.compute-1.amazonaws.com
+Database: dbvb9pgec703ho
+User:	  yobbtyvsphftgn
+Port:	  5432
+Password: d5611dbc897053e01868bd1d379e3aa55093bfb1d831d2dfd6092d1fdcd3f914
+URI:	  postgres://yobbtyvsphftgn:d5611dbc897053e01868bd1d379e3aa55093bfb1d831d2dfd6092d1fdcd3f914@ec2-44-194-225-27.compute-1.amazonaws.com:5432/dbvb9pgec703ho

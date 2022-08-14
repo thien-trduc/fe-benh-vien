@@ -1,0 +1,59 @@
+
+.btn-add {
+    background-color: #32cd32;
+    font-weight: bold;
+    color: white;
+    font-size: 12px;
+    text-align: justify;
+  }
+  
+  .btn-delete {
+    color: white;
+    background-color: red;
+  }
+  
+  .btn-refresh {
+    color: white;
+    background-color: #87ceeb;
+  }
+  
+  .btn-edit {
+    color: white;
+  
+    background-color: #1e90ff;
+  }
+  
+  .icon-btn {
+    font-size: 18px;
+    font-weight: bold;
+  }
+  
+  #outer
+  {
+      width:100%;
+      text-align: center;
+  }
+  .inner
+  {
+      display: inline-block;
+  }
+  
+  .search {
+    width: 200px;
+  }
+  
+  nz-page-header {
+    border: 3px solid rgb(235, 237, 240);
+    margin-bottom: 50px;
+    background:rgb(0, 191, 255);
+
+  }
+  
+  nz-breadcrumb {
+    margin-bottom: 20px;
+  }
+  
+  nz-breadcrumb-item {
+    font-size: 20px;
+    font-weight: bold;
+  }

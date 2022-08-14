@@ -1,0 +1,359 @@
+<div>
+  <div class="wrap">
+    <nz-page-header [nzGhost]="false" nzSize="">
+      <nz-page-header-title
+        ><span style="color: aliceblue"
+          ><i nz-icon nzType="schedule" nzTheme="outline"></i> {{ title }}</span
+        ></nz-page-header-title
+      >
+      <nz-page-header-subtitle class="outer">
+        <div class="inner">
+          <nz-date-picker
+            [nzDisabledDate]="disabledStartDate"
+            nzShowTime
+            nzFormat="yyyy-MM-dd HH:mm:ss"
+            [(ngModel)]="startValue"
+            nzPlaceHolder="Start"
+            (ngModelChange)="onStartChange($event)"
+            (nzOnOpenChange)="handleStartOpenChange($event)"
+          >
+          </nz-date-picker>
+          <nz-date-picker
+            [nzDisabledDate]="disabledEndDate"
+            nzShowTime
+            nzFormat="yyyy-MM-dd HH:mm:ss"
+            [(ngModel)]="endValue"
+            nzPlaceHolder="End"
+            [nzOpen]="endOpen"
+            (ngModelChange)="onEndChange($event)"
+            (nzOnOpenChange)="handleEndOpenChange($event)"
+          >
+          </nz-date-picker>
+        </div>
+
+        <div class="inner" style="margin-left: 10px; margin-right: 10px">
+          <button
+            nz-button
+            nzType="primary"
+            nzBlock
+            class="btn-search"
+            type="button"
+            (click)="onSearch()"
+          >
+            <i nz-icon nzType="search" nzTheme="outline" class="icon-btn"></i>
+            Tìm Kiếm
+          </button>
+        </div>
+
+        <div class="inner" style="margin-right: 10px">
+          <button
+            nz-button
+            nzType="primary"
+            nzBlock
+            class="btn-refresh"
+            type="button"
+            (click)="onLamMoi()"
+          >
+            <i nz-icon nzType="redo" nzTheme="outline" class="icon-btn"></i> Làm
+            Mới
+          </button>
+        </div>
+
+        <div class="inner">
+          <button
+            nz-button
+            nzType="primary"
+            nzBlock
+            class="btn-add"
+            type="button"
+            (click)="openModelAdd()"
+            *ngIf="!isXuatHoaDon"
+          >
+            <i
+              nz-icon
+              nzType="plus-circle"
+              nzTheme="outline"
+              class="icon-btn"
+            ></i>
+            Thêm
+          </button>
+        </div>
+      </nz-page-header-subtitle>
+    </nz-page-header>
+  </div>
+  <nz-table
+    #ajaxtable
+    nzNoResult="Không tìm thấy dữ liệu"
+    nzShowSizeChanger
+    nzBordered
+    [nzData]="datas"
+    [nzFrontPagination]="false"
+    [nzTotal]="total"
+    [(nzPageSize)]="pageSize"
+    [(nzPageIndex)]="pageIndex"
+    (nzPageIndexChange)="onPageChange()"
+    (nzPageSizeChange)="onPageChange(true)"
+  >
+    <thead (nzSortChange)="sort($event)" nzSingleSort>
+      <tr>
+        <th nzShowSort nzSortKey="ngayKham" nzWidth="200px"><span>Ngày</span></th>
+        <th nzShowSort nzSortKey="bacSi" ><span>Bác sĩ</span></th>
+        <th nzShowSort nzSortKey="chanDoan" nzWidth="350px"><span>Chẩn Đoán</span></th>
+        <th nzShowSort nzSortKey="tinhTrang" nzWidth="350px"><span>Tình Trạng</span></th>
+
+        <th  nzWidth="250px">Thao tác</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr *ngFor="let data of ajaxtable.data">
+        <td>{{ formatDate(data.ngayKham) }}</td>
+        <td>{{ data.bacSi.hoTen }}</td>
+        <td nzBreakWord><p  nz-paragraph nzEllipsis nzExpandable [nzEllipsisRows]="1" > {{data.chanDoan}} </p></td>
+        <td nzBreakWord><p  nz-paragraph nzEllipsis nzExpandable [nzEllipsisRows]="1" > {{data.tinhTrang}} </p></td>
+        <td>
+          <div class="outer">
+            <div class="inner">
+              <button
+                nz-button
+                nzBlock
+                class="btn-edit"
+                type="button"
+                (click)="openModelUpdate(data.id)"
+              >
+                <i nz-icon nzType="edit" nzTheme="fill" class="icon-btn"></i>
+                Sửa
+              </button>
+            </div>
+            <div class="inner">
+              <button
+                nzOkType="danger"
+                nz-popconfirm
+                nzPopconfirmTitle="Chắc chắn xóa ?"
+                (nzOnConfirm)="delete(data.id)"
+                nz-button
+                nzBlock
+                class="btn-delete"
+                *ngIf="!isXuatHoaDon"
+              >
+                <i nz-icon nzType="delete" nzTheme="fill" class="icon-btn"></i>
+                Xóa
+              </button>
+            </div>
+          </div>
+        </td>
+      </tr>
+    </tbody>
+  </nz-table>
+</div>
+<nz-modal
+  [(nzVisible)]="modalKham"
+  nzTitle="Thông tin khám"
+  (nzOnCancel)="onCancelModelKham()"
+  nzWidth="1000"
+>
+  <form
+    nzLayout="vertical"
+    nz-form
+    [formGroup]="validateForm"
+    (ngSubmit)="submitForm()"
+  >
+    <div>
+      <nz-form-item>
+        <nz-form-label nzRequired [nzSm]="6" [nzXs]="24" nzFor="maBacSi"
+          >Bác sĩ khám
+        </nz-form-label>
+        <nz-form-control
+          [nzSm]="14"
+          [nzXs]="24"
+          nzErrorTip="Vui lòng chọn bác sĩ !"
+        >
+          <div *ngIf="idUpdate">
+            <span>
+              {{ kham?.bacSi?.hoTen }}
+            </span>
+          </div>
+          <div *ngIf="!idUpdate">
+            <span>
+              {{ bacSi?.hoTen }}
+            </span>
+          </div>
+          <input
+            size="40"
+            [value]="idUpdate ? kham.bacSi.maNV : ''"
+            nz-input
+            formControlName="maBacSi"
+            disabled
+            hidden
+          />
+          <button
+            nz-button
+            nzType="primary"
+            nzSize="small"
+            type="button"
+            (click)="showModalBacSi()"
+            *ngIf="!isXuatHoaDon"
+          >
+            <i nz-icon nzType="edit" nzTheme="outline"></i>
+            Chọn
+          </button>
+        </nz-form-control>
+      </nz-form-item>
+
+      <nz-form-item>
+        <nz-form-label [nzSm]="6" [nzXs]="24" nzFor="maYta"
+          >Y tá hỗ trợ
+        </nz-form-label>
+        <nz-form-control [nzSm]="14" [nzXs]="24">
+          <div *ngIf="idUpdate">
+            <span>
+              {{ kham?.yta?.hoTen }}
+            </span>
+          </div>
+          <div *ngIf="!idUpdate">
+            <span>
+              {{ yTa?.hoTen }}
+            </span>
+          </div>
+          <input
+            size="40"
+            [value]="idUpdate ? kham?.yta?.maNV : ''"
+            nz-input
+            formControlName="maYta"
+            disabled
+            hidden
+          />
+          <button
+            nz-button
+            nzType="primary"
+            nzSize="small"
+            type="button"
+            (click)="showModalYta()"
+            *ngIf="!isXuatHoaDon"
+          >
+            <i nz-icon nzType="edit" nzTheme="outline"></i>
+            Chọn
+          </button>
+        </nz-form-control>
+      </nz-form-item>
+
+      <nz-form-item>
+        <nz-form-label [nzSm]="6" [nzXs]="24" nzRequired nzFor="ngayKham"
+          >Thời gian khám
+        </nz-form-label>
+        <nz-form-control
+          [nzSm]="16"
+          [nzXs]="24"
+          nzErrorTip="Vui lòng chọn thời gian"
+        >
+          <nz-date-picker
+            [nzDisabledDate]="disabledDate"
+            (ngModel)="(idUpdate ? kham.ngayKham : null)"
+            formControlName="ngayKham"
+            nzShowTime="true"
+          ></nz-date-picker>
+        </nz-form-control>
+      </nz-form-item>
+
+      <nz-form-item>
+        <nz-form-label nzRequired [nzSm]="6" [nzXs]="24" nzFor="chanDoan"
+          >Chẩn đoán:
+        </nz-form-label>
+        <nz-form-control
+          [nzSm]="14"
+          [nzXs]="24"
+          nzErrorTip="Vui lòng nhập chẩn đoán !"
+        >
+          <textarea
+            rows="2"
+            size="40"
+            [value]="idUpdate ? kham.chanDoan : ''"
+            nz-input
+            formControlName="chanDoan"
+          ></textarea>
+        </nz-form-control>
+      </nz-form-item>
+
+      <nz-form-item>
+        <nz-form-label nzRequired [nzSm]="6" [nzXs]="24" nzFor="tinhTrang"
+          >Tình trạng:
+        </nz-form-label>
+        <nz-form-control
+          [nzSm]="14"
+          [nzXs]="24"
+          nzErrorTip="Vui lòng nhập tình trạng !"
+        >
+          <textarea
+            rows="2"
+            size="40"
+            [value]="idUpdate ? kham.tinhTrang : ''"
+            nz-input
+            formControlName="tinhTrang"
+          ></textarea>
+        </nz-form-control>
+      </nz-form-item>
+
+      <nz-form-item *ngIf="idUpdate">
+        <div class="outer">
+          <div
+            class="inner"
+          >
+            <button
+              nz-button
+              nzBlock
+              class="btn-toa-thuoc"
+              type="button"
+              (click)="redirectThuoc(kham.id)"
+            >
+              <i nz-icon nzType="form" nzTheme="outline"></i>
+              Toa Thuốc
+            </button>
+          </div>
+        </div>
+      </nz-form-item>
+
+      <nz-form-item>
+        <div class="outer">
+          <div class="inner">
+            <button
+              nz-button
+              type="button"
+              (click)="onCancelModelKham()"
+              class="btn-back"
+            >
+              Thoát
+            </button>
+          </div>
+          <div class="inner">
+            <button
+              nz-button
+              class="btn-save"
+              type="submit"
+              *ngIf="!isXuatHoaDon"
+            >
+              Lưu
+            </button>
+          </div>
+        </div>
+      </nz-form-item>
+    </div>
+  </form>
+  <div *nzModalFooter></div>
+</nz-modal>
+<nz-modal
+  [(nzVisible)]="modalBacSi"
+  nzTitle="Chọn bác sĩ"
+  (nzOnCancel)="onCancelModelBacSi()"
+  nzWidth="1000"
+>
+  <app-bac-si-list (eventBacSi)="onGetBacSi($event)"></app-bac-si-list>
+  <div *nzModalFooter></div>
+</nz-modal>
+<nz-modal
+  [(nzVisible)]="modalYta"
+  nzTitle="Chọn y tá"
+  (nzOnCancel)="onCancelModelYta()"
+  nzWidth="1000"
+>
+  <app-yta-list (eventYta)="onGetYta($event)"></app-yta-list>
+  <div *nzModalFooter></div>
+</nz-modal>

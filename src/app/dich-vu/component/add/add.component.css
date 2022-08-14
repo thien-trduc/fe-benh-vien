@@ -1,0 +1,50 @@
+[nz-form] {
+    border: 3px solid rgb(235, 237, 240);
+  }
+  
+  nz-breadcrumb {
+    margin-bottom: 20px;
+  }
+  
+  nz-breadcrumb-item {
+    font-size: 20px;
+    font-weight: bold;
+  }
+  
+  .btn-save-area {
+    margin-top: 10px;
+  }
+  .btn-save {
+    width: 150px;
+    height: 100%;
+    background-color: #00BFFF;
+    color: aliceblue;
+    font-weight: bold;
+    font-size: 20px;
+    margin-bottom: 20px;
+  }
+  nz-page-header {
+    border: 3px solid rgb(235, 237, 240);
+    margin-bottom: 50px;
+    background:rgb(0, 191, 255);
+
+  }
+  
+  #outer
+  {
+      width:100%;
+      text-align: center;
+  }
+  .inner
+  {
+      display: inline-block;
+  }
+  .btn-back {
+    width: 150px;
+    background-color: #F08080;
+    color: aliceblue;
+    font-weight: bold;
+    font-size: 20px;
+    margin-right: 20px;
+    margin-left: 20px;
+  }

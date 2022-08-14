@@ -1,0 +1,30 @@
+.login-form {
+  z-index: 15;
+  position: relative;
+  background: #ffffff;
+  width: 600px;
+  border-radius: 4px;
+  box-shadow: 0 0 30px rgba(0, 0, 0, 0.1);
+  box-sizing: border-box;
+  margin: 100px auto 10px;
+  overflow: hidden;
+  padding: 20px;
+}
+
+.group-input {
+  margin-left: 10%;
+}
+
+.login-form-forgot {
+  float: right;
+}
+
+.login-form-button {
+  width: 100%;
+}
+
+.title {
+  font-weight: bold;
+  font-size: 30px;
+  color: #6495ed;
+}

@@ -1,0 +1,93 @@
+<div class="wrap">
+    <nz-page-header [nzGhost]="false">
+      <nz-page-header-title
+        ><span style="font-size: 13px; color: aliceblue">
+          {{ title }}
+        </span></nz-page-header-title
+      >
+      <nz-page-header-subtitle class="outer">
+        <div class="inner">
+          <ng-template #searchSuffit
+            ><i nz-icon nz nzType="search"></i
+          ></ng-template>
+          <nz-select
+            class="search"
+            nzShowSearch
+            nzServerSearch
+            nzNotFoundContent="Không tìm thấy dữ liệu"
+            nzPlaceHolder="Tìm kiếm theo tên"
+            [(ngModel)]="selectedUser"
+            [nzFilterOption]="true"
+            (nzOnSearch)="onSearch($event)"
+            (ngModelChange)="onSelectSearchChange($event)"
+            [nzSuffixIcon]="searchSuffit"
+          >
+            <nz-option
+              *ngFor="let o of searchResult"
+              [nzLabel]="o.tenDv"
+              [nzValue]="o.tenDv"
+            >
+            </nz-option>
+          </nz-select>
+        </div>
+        <div class="inner">
+          <button nz-button nzBlock class="btn-refresh" (click)="onLamMoi()">
+            <i nz-icon nzType="redo" nzTheme="outline" class="icon-btn"></i> Làm
+            Mới
+          </button>
+        </div>
+      </nz-page-header-subtitle>
+    </nz-page-header>
+  </div>
+  <nz-table
+    #ajaxtable
+    nzNoResult="Không tìm thấy dữ liệu"
+    nzBordered
+    [nzData]="datas"
+    [nzLoading]="loading"
+    [nzFrontPagination]="false"
+    [nzTotal]="total"
+    [(nzPageSize)]="pageSize"
+    [(nzPageIndex)]="pageIndex"
+    (nzPageIndexChange)="onPageChange()"
+    (nzPageSizeChange)="onPageChange(true)"
+  >
+    <thead (nzSortChange)="sort($event)" nzSingleSort>
+      <tr>
+        <th></th>
+        <th nzShowSort nzSortKey="tenDv"><span>Tên Dv</span></th>
+        <th><span>Giá</span></th>
+        <th>Thao tác</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr *ngFor="let data of ajaxtable.data">
+        <td>
+          <img
+            [alt]="data.hinhAnh"
+            [src]="data.hinhAnh"
+            style="width: 100px; height: 70px"
+          />
+        </td>
+        <td>{{ data.tenDv }}</td>
+        <td>{{ formatCurrency(data.gia) }}</td>
+        <td>
+          <div class="outer">
+            <div class="inner">
+              <button
+                nz-button
+                nzBlock
+                class="btn-edit"
+                (click)="getDichVu(data.maDV)"
+                type="button"
+              >
+                <i nz-icon nzType="edit" nzTheme="fill" class="icon-btn"></i>
+                Chọn
+              </button>
+            </div>
+          </div>
+        </td>
+      </tr>
+    </tbody>
+  </nz-table>
+  

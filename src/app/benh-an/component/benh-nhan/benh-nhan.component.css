@@ -1,0 +1,50 @@
+
+.btn-add {
+  background-color: #32cd32;
+  font-weight: bold;
+  color: white;
+  font-size: 12px;
+  text-align: justify;
+}
+
+.btn-delete {
+  color: white;
+  background-color: red;
+}
+
+.btn-refresh {
+  color: white;
+  background-color: rgb(0, 172, 230);
+  border: 2px solid rgb(0, 172, 230);
+}
+
+.btn-edit {
+  color: white;
+
+  background-color: #1e90ff;
+}
+
+.icon-btn {
+  font-size: 18px;
+  font-weight: bold;
+}
+
+#outer
+{
+    width:100%;
+    text-align: center;
+}
+.inner
+{
+    display: inline-block;
+    margin: 5px;
+}
+
+.search {
+  width: 180px;
+}
+
+nz-page-header {
+  border: 3px solid rgb(235, 237, 240);
+  background-color:rgb(0, 191, 255);
+}

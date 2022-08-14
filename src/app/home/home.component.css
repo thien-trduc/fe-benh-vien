@@ -1,0 +1,18 @@
+nz-breadcrumb-item {
+  font-size: 20px;
+  font-weight: bold;
+}
+nz-page-header {
+  border: 3px solid rgb(235, 237, 240);
+  margin-bottom: 10px;
+  background-color: #1e90ff;
+  margin-top: 10px;
+}
+.grid-config {
+  height: 120px;
+  line-height: 120px;
+  font-size: 13px;
+}
+.gutter-example {
+    height: 500px;
+}

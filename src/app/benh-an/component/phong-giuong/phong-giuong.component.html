@@ -1,0 +1,81 @@
+<div class="wrap">
+    <nz-page-header [nzGhost]="false">
+      <nz-page-header-title
+        ><span style="font-size: 13px; color: aliceblue">
+          {{ title }}
+        </span></nz-page-header-title
+      >
+      <nz-page-header-subtitle class="outer">
+        <div class="inner">
+            <nz-select
+            style="width: 200px;"
+              nzShowSearch
+              nzServerSearch
+              nzNotFoundContent="Không tìm thấy dữ liệu"
+              nzPlaceHolder="Chọn phòng"
+              [(ngModel)]="selectedPhong"
+              [nzFilterOption]="true"
+              (ngModelChange)="onSelectedPhong($event)"
+            >
+              <nz-option
+                *ngFor="let o of phongs"
+                [nzLabel]="o.soPhong"
+                [nzValue]="o.maPhong"
+              >
+              </nz-option>
+            </nz-select>
+        </div>
+        <div class="inner">
+          <button nz-button nzBlock class="btn-refresh" (click)="onLamMoi()">
+            <i nz-icon nzType="redo" nzTheme="outline" class="icon-btn"></i> Làm
+            Mới
+          </button>
+        </div>
+      </nz-page-header-subtitle>
+    </nz-page-header>
+  </div>
+
+<nz-table
+  #ajaxtableGiuong
+  nzNoResult="Không tìm thấy dữ liệu"
+  nzShowSizeChanger
+  nzBordered
+  [nzData]="datas"
+  [nzLoading]="loading"
+  [nzFrontPagination]="false"
+  [nzTotal]="total"
+  [(nzPageSize)]="pageSize"
+  [(nzPageIndex)]="pageIndex"
+  (nzPageIndexChange)="onPageChange()"
+  (nzPageSizeChange)="onPageChange(true)"
+>
+  <thead (nzSortChange)="sortCt($event)" nzSingleSort>
+    <tr>
+      <th><span>Số Giường</span></th>
+      <th><span>Trạng thái</span></th>
+      <th>Thao tác</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr *ngFor="let data of ajaxtableGiuong.data">
+      <td>{{ data.giuong.soGiuong }}</td>
+      <td>{{ data.trangThai }}</td>
+      <td>
+        <div class="outer">
+          <div class="inner">
+            <button
+              nz-button
+              nzBlock
+              class="btn-edit"
+              (click)="getGiuong(data.id)"
+              type="button"
+            >
+              <i nz-icon nzType="edit" nzTheme="fill" class="icon-btn"></i>
+              Chọn
+            </button>
+          </div>
+        </div>
+      </td>
+    </tr>
+  </tbody>
+</nz-table>

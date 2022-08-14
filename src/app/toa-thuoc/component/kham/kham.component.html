@@ -1,0 +1,135 @@
+<div>
+  <div class="wrap">
+    <div>
+      Chọn bệnh án :
+      <ng-template #searchSuffit ><i nz-icon nz nzType="search"></i></ng-template>
+      <nz-select
+        style="width: 200px"
+        nzAllowClear
+        nzShowSearch
+        nzServerSearch
+        nzNotFoundContent="Không tìm thấy dữ liệu"
+        nzPlaceHolder="Tìm kiếm bệnh án"
+        [(ngModel)]="selectedBenhAn"
+        [nzFilterOption]="true"
+        (nzOnSearch)="onSearchBenhAn($event)"
+        (ngModelChange)="onSelectSearchChangeBenhAn($event)"
+        [nzSuffixIcon]="searchSuffit"
+      >
+        <nz-option
+          *ngFor="let o of benhAns"
+          [nzLabel]="o.maBA"
+          [nzValue]="o.maBA"
+        >
+        </nz-option>
+      </nz-select>
+    </div>
+    <nz-page-header [nzGhost]="false" nzSize="">
+      <nz-page-header-title>
+        <div class="outer">
+          <div class="inner">
+            <span style="color: aliceblue"
+              ><i nz-icon nzType="schedule" nzTheme="outline"></i>
+              {{ title }}</span
+            >
+          </div>
+          <div class="inner">
+            <!-- <button
+              nz-button
+              nzBlock
+              class="btn-search"
+              type="button"
+              (click)="onSearch()"
+            >
+              <i nz-icon nzType="search" nzTheme="outline" class="icon-btn"></i>
+              Tìm Kiếm
+            </button> -->
+          </div>
+
+          <div class="inner">
+            <button
+              nz-button
+              nzBlock
+              class="btn-refresh"
+              type="button"
+              (click)="onLamMoi()"
+            >
+              <i nz-icon nzType="redo" nzTheme="outline" class="icon-btn"></i>
+              Làm Mới
+            </button>
+          </div>
+        </div>
+      </nz-page-header-title>
+      <!-- <nz-page-header-subtitle class="outer">
+        <div class="inner">
+          <nz-date-picker
+            [nzDisabledDate]="disabledStartDate"
+            nzShowTime
+            nzFormat="yyyy-MM-dd HH:mm:ss"
+            [(ngModel)]="startValue"
+            nzPlaceHolder="Start"
+            (ngModelChange)="onStartChange($event)"
+            (nzOnOpenChange)="handleStartOpenChange($event)"
+          >
+          </nz-date-picker>
+          <nz-date-picker
+            [nzDisabledDate]="disabledEndDate"
+            nzShowTime
+            nzFormat="yyyy-MM-dd HH:mm:ss"
+            [(ngModel)]="endValue"
+            nzPlaceHolder="End"
+            [nzOpen]="endOpen"
+            (ngModelChange)="onEndChange($event)"
+            (nzOnOpenChange)="handleEndOpenChange($event)"
+          >
+          </nz-date-picker>
+        </div>
+      </nz-page-header-subtitle> -->
+    </nz-page-header>
+  </div>
+  <nz-table
+    #ajaxtable
+    nzNoResult="Không tìm thấy dữ liệu"
+    nzShowSizeChanger
+    nzBordered
+    [nzData]="datas"
+    [nzFrontPagination]="false"
+    [nzTotal]="total"
+    [(nzPageSize)]="pageSize"
+    [(nzPageIndex)]="pageIndex"
+    (nzPageIndexChange)="onPageChange()"
+    (nzPageSizeChange)="onPageChange(true)"
+  >
+    <thead (nzSortChange)="sort($event)" nzSingleSort>
+      <tr>
+        <th nzShowSort nzSortKey="ngayKham"><span>Ngày</span></th>
+        <th nzShowSort nzSortKey="bacSi"><span>Bác sĩ</span></th>
+        <th nzShowSort nzSortKey="yta"><span>Y tá</span></th>
+        <th>Thao tác</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr *ngFor="let data of ajaxtable.data">
+        <td>{{ formatDate(data.ngayKham) }}</td>
+        <td>{{ data.bacSi.hoTen }}</td>
+        <td>{{ data.yta.hoTen }}</td>
+        <td>
+          <div class="outer">
+            <div class="inner">
+              <button
+                nz-button
+                nzBlock
+                class="btn-edit"
+                type="button"
+                (click)="getMaKham(data.id)"
+              >
+                <i nz-icon nzType="edit" nzTheme="fill" class="icon-btn"></i>
+                Chọn
+              </button>
+            </div>
+          </div>
+        </td>
+      </tr>
+    </tbody>
+  </nz-table>
+</div>

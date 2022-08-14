@@ -1,0 +1,122 @@
+<div class="wrap">
+    <nz-breadcrumb>
+      <nz-breadcrumb-item>
+        <a routerLink="/" >
+          Trang chủ
+        </a>
+      </nz-breadcrumb-item>
+      <nz-breadcrumb-item>
+        <a [routerLink]='listRoute'>
+          {{ title }}
+        </a>
+      </nz-breadcrumb-item>
+    </nz-breadcrumb>
+    <nz-page-header [nzGhost]="false">
+      <nz-page-header-title><span style="color: aliceblue;"><i nz-icon nzType="profile" nzTheme="outline"></i> Danh sách {{ title }}</span></nz-page-header-title>
+      <nz-page-header-subtitle class="outer">
+        <div class="inner">
+          <ng-template #searchSuffit ><i nz-icon nz nzType="search"></i></ng-template>
+          <nz-select
+            class="search"
+            nzShowSearch
+            nzServerSearch
+            nzNotFoundContent="Không tìm thấy dữ liệu"
+            nzPlaceHolder="Tìm kiếm theo mã"
+            [(ngModel)]="selectedUser"
+            [nzFilterOption]="true"
+            (nzOnSearch)="onSearch($event)"
+            (ngModelChange)="onSelectSearchChange($event)"
+            [nzSuffixIcon]="searchSuffit"
+          >
+            <nz-option
+              *ngFor="let o of searchResult"
+              [nzLabel]="o.maToa"
+              [nzValue]="o.maToa"
+            >
+            </nz-option>
+           
+          </nz-select>
+          
+        </div>
+        <!-- <div class="inner">
+          <a [routerLink]="addRoute">
+            <button nz-button nzBlock class="btn-add">
+              <i
+                nz-icon
+                nzType="plus-circle"
+                nzTheme="outline"
+                class="icon-btn"
+              ></i>
+              Thêm
+            </button>
+          </a>
+        </div> -->
+        <div class="inner">
+          <button nz-button nzBlock class="btn-refresh" (click)="onLamMoi()">
+            <i nz-icon nzType="redo" nzTheme="outline" class="icon-btn"></i> Làm
+            Mới
+          </button>
+        </div>
+        
+      </nz-page-header-subtitle>
+    </nz-page-header>
+  </div>
+  <nz-table
+    #ajaxtable
+    nzNoResult="Không tìm thấy dữ liệu"
+    nzShowSizeChanger
+    nzBordered
+    [nzData]="datas"
+    [nzLoading]="loading"
+    [nzFrontPagination]="false"
+    [nzTotal]="total"
+    [(nzPageSize)]="pageSize"
+    [(nzPageIndex)]="pageIndex"
+    (nzPageIndexChange)="onPageChange()"
+    (nzPageSizeChange)="onPageChange(true)"
+  >
+    <thead (nzSortChange)="sort($event)" nzSingleSort>
+      <tr>
+        <th></th>
+        <th nzShowSort nzSortKey="maToa"><span>Mã Toa</span></th>
+        <th nzShowSort nzSortKey="updatedAt"><span>Ngày</span></th>
+        <th nzShowSort nzSortKey="kham"><span>Người lập</span></th>
+        <th>Thao tác</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr *ngFor="let data of ajaxtable.data">
+        <td><i nz-icon nzType="file-protect" style="font-size: 30px;color: #1e90ff;" nzTheme="outline"></i></td>
+        <td>{{ data.maToa }}</td>
+        <td>{{ formatDate(data.updatedAt) }}</td>
+        <td>{{data.kham.bacSi.hoTen}}</td>
+        <td>
+          <div class="outer">
+            <div class="inner">
+              <a [routerLink]="getUrlEdit(data.maToa)">
+                <button nz-button nzBlock class="btn-edit">
+                  <i nz-icon nzType="edit" nzTheme="fill" class="icon-btn"></i>
+                  Sửa
+                </button>
+              </a>
+            </div>
+            <div class="inner">
+              <button
+                nzOkType="danger"
+                nz-popconfirm
+                nzPopconfirmTitle="Chắc chắn xóa ?"
+                (nzOnConfirm)="delete(data.maToa)"
+                nz-button
+                nzBlock
+                class="btn-delete"
+              >
+                <i nz-icon nzType="delete" nzTheme="fill" class="icon-btn"></i>
+                Xóa
+              </button>
+            </div>
+          </div>
+        </td>
+      </tr>
+    </tbody>
+  </nz-table>
+  

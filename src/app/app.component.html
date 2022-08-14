@@ -1,0 +1,236 @@
+<nz-layout class="app-layout">
+  <nz-sider
+    class="menu-sidebar"
+    nzCollapsible
+    nzWidth="256px"
+    nzBreakpoint="md"
+    [(nzCollapsed)]="isCollapsed"
+    [nzTrigger]="null"
+    *ngIf="isLogin()"
+    id="style-4"
+  >
+    <div class="sidebar-logo">
+      <a href="https://ng.ant.design/" target="_blank">
+        <img
+          src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQr3bEgUgAqEaMY-qGw2dS4VUwDeQAJCbRIyg&usqp=CAU"
+          alt="logo"
+        />
+        <h1>BỆNH VIỆN</h1>
+      </a>
+    </div>
+    <ul
+      nz-menu
+      nzMode="inline"
+      class="menu-title"
+      [nzInlineCollapsed]="isCollapsed"
+    >
+      <li
+        nz-submenu
+        nzOpen
+        nz-tooltip
+        nzPlacement="right"
+        nzIcon="profile"
+        nzTitle="NỘI TRÚ"
+      >
+        <!-- <ng-template #titleTpl><i nz-icon nzType="appstore"></i><span> Nội trú</span></ng-template> -->
+        <ul>
+          <li nz-menu-item>
+            <a routerLink="/benh-an"
+              ><i nz-icon nzType="container" nzTheme="outline"></i>Bệnh Án</a
+            >
+          </li>
+          <li nz-menu-item>
+            <a routerLink="/benh-nhan"
+              ><i nz-icon nzType="user-add" nzTheme="outline"></i>Bệnh Nhân</a
+            >
+          </li>
+          <li nz-menu-item>
+            <a routerLink="/toa-thuoc"
+              ><i nz-icon nzType="form" nzTheme="outline"></i>Toa Thuốc</a
+            >
+          </li>
+          <li nz-menu-item>
+            <a routerLink="/tam-ung"
+              ><i nz-icon nzType="file" nzTheme="outline"></i>Tạm Ứng</a
+            >
+          </li>
+          <li nz-menu-item>
+            <a routerLink="/xuat-vien"
+              ><i nz-icon nzType="file" nzTheme="outline"></i>Xuất Viện</a
+            >
+          </li>
+          <li nz-menu-item>
+            <a routerLink="/hoa-don"
+              ><i nz-icon nzType="pound" nzTheme="outline"></i>Hóa Đơn</a
+            >
+          </li>
+        </ul>
+      </li>
+    </ul>
+
+    <ul
+      nz-menu
+      nzMode="inline"
+      [nzInlineCollapsed]="isCollapsed"
+      class="menu-title"
+    >
+      <li
+        nz-submenu
+        nzOpen
+        nz-tooltip
+        nzPlacement="right"
+        nzTitle="DANH MỤC"
+        nzIcon="appstore"
+      >
+        <ul>
+          <li nz-menu-item>
+            <a routerLink="/khoa"
+              ><i nz-icon nzType="container" nzTheme="outline"></i>Khoa</a
+            >
+          </li>
+          <li nz-menu-item>
+            <a routerLink="/phong"
+              ><i nz-icon nzType="container" nzTheme="outline"></i>Phòng</a
+            >
+          </li>
+          <li nz-menu-item>
+            <a routerLink="/giuong"
+              ><i nz-icon nzType="container" nzTheme="outline"></i>Giường</a
+            >
+          </li>
+          <li nz-menu-item>
+            <a routerLink="/dich-vu"
+              ><i nz-icon nzType="container" nzTheme="outline"></i>Dịch Vụ</a
+            >
+          </li>
+          <li nz-menu-item>
+            <a routerLink="/thuoc"
+              ><i nz-icon nzType="experiment" nzTheme="outline"></i>Thuốc</a
+            >
+          </li>
+          <li nz-menu-item>
+            <a routerLink="/nhan-vien"
+              ><i nz-icon nzType="team" nzTheme="outline"></i>Nhân Viên</a
+            >
+          </li>
+        </ul>
+      </li>
+      <li nzOpen>
+        <!-- <button
+          nz-button
+          nzType="primary"
+          (click)="logout()"
+          style="width: 100%; text-align: center; background-color: #001529"
+        >
+          <i nz-icon nzType="left-circle" nzTheme="outline"></i>
+          Đăng Xuất
+        </button> -->
+      </li>
+    </ul>
+
+    <ul
+      nz-menu
+      nzMode="inline"
+      [nzInlineCollapsed]="isCollapsed"
+      class="menu-title"
+    >
+      <li
+        nz-submenu
+        nzOpen
+        nz-tooltip
+        nzPlacement="right"
+        nzTitle="THỐNG KÊ"
+        nzIcon="line-chart"
+      >
+        <ul>
+          <li nz-menu-item>
+            <a routerLink="/thong-ke/doanh-thu"
+              ><i nz-icon nzType="bar-chart" nzTheme="outline"></i>Doanh Thu</a
+            >
+          </li>
+          <li nz-menu-item>
+            <a routerLink="/thong-ke/phong-benh-nhan"
+              ><i nz-icon nzType="bar-chart" nzTheme="outline"></i>Bệnh Nhân Điều Trị</a
+            >
+          </li>
+        </ul>
+      </li>
+      <li nzOpen>
+        <!-- <button
+          nz-button
+          nzType="primary"
+          (click)="logout()"
+          style="width: 100%; text-align: center; background-color: #001529"
+        >
+          <i nz-icon nzType="left-circle" nzTheme="outline"></i>
+          Đăng Xuất
+        </button> -->
+      </li>
+    </ul>
+
+    <ul
+      nz-menu
+      nzMode="inline"
+      [nzInlineCollapsed]="isCollapsed"
+      class="menu-title"
+    >
+      <li
+        nz-submenu
+        nzOpen
+        nz-tooltip
+        nzPlacement="right"
+        nzTitle="Đăng Xuất"
+        nzIcon="logout"
+      >
+        <ul>
+          <li nz-menu-item>
+            <a nz-button nzType="link" (click)="logout()"
+              ><i nz-icon nzType="arrow-left" nzTheme="outline"></i>
+              Thoát
+            </a>
+          </li>
+        </ul>
+      </li>
+      <li nzOpen>
+        <!-- <button
+        nz-button
+        nzType="primary"
+        (click)="logout()"
+        style="width: 100%; text-align: center; background-color: #001529"
+      >
+        <i nz-icon nzType="left-circle" nzTheme="outline"></i>
+        Đăng Xuất
+      </button> -->
+      </li>
+    </ul>
+  </nz-sider>
+  <nz-layout>
+    <nz-header *ngIf="isLogin()">
+      <div class="app-header">
+        <span class="header-trigger" (click)="isCollapsed = !isCollapsed">
+          <i
+            class="trigger"
+            nz-icon
+            [nzType]="isCollapsed ? 'menu-unfold' : 'menu-fold'"
+          ></i>
+        </span>
+        <a routerLink="/benh-nhan/tao-moi">
+          <button nz-button nzType="default" class="header-btn">
+            <i nz-icon nzType="file-add" nzTheme="outline"></i>Tạo Bệnh Nhân
+          </button>
+        </a>
+        <a routerLink="/benh-an/tao-moi">
+          <button nz-button nzType="default" class="header-btn">
+            <i nz-icon nzType="file-add" nzTheme="outline"></i>Lập Bệnh Án
+          </button>
+        </a>
+       
+      </div>
+    </nz-header>
+    <nz-content>
+      <div class="inner-content">
+        <router-outlet></router-outlet>
+      </div>
+    </nz-content>
+  </nz-layout>
+</nz-layout>

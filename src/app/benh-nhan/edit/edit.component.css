@@ -1,0 +1,80 @@
+
+.thong-tin {
+  padding-left: 70px;
+}
+#outer
+{
+    width:100%;
+    text-align: center;
+}
+.inner
+{
+    display: inline-block;
+}
+.btn-save {
+  width: 150px;
+  background-color: #00BFFF;
+  color: aliceblue;
+  font-weight: bold;
+  font-size: 20px;
+}
+.btn-back {
+  width: 150px;
+  background-color: #F08080;
+  color: aliceblue;
+  font-weight: bold;
+  font-size: 20px;
+  margin-right: 20px;
+}
+
+.group-edit {
+  border: 3px solid rgb(235, 237, 240);
+  padding: 3px;
+
+}
+
+nz-page-header {
+  border: 3px solid rgb(235, 237, 240);
+  margin-bottom: 20px;
+  background-color:rgb(0, 191, 255);
+}
+nz-breadcrumb {
+  margin-bottom: 20px;
+}
+
+nz-breadcrumb-item {
+  font-size: 20px;
+  font-weight: bold;
+}
+
+nz-form-label {
+  font-size: 25px;
+  font-weight: bold;
+}
+
+.form-input {
+  width: 100%;
+    display: block;
+    border: none;
+    border-bottom: 1px solid #999;
+    padding: 6px 30px;
+    font-family: Poppins;
+    box-sizing: border-box;
+    height: 45px;
+    font-size: 20px;
+}
+
+.group-kham {
+  border: 3px solid rgb(235, 237, 240);
+}
+
+.btn-edit {
+  color: white;
+  background-color: #1e90ff;
+}
+
+.tab {
+  font-size: 20px;
+  font-weight: bold;
+  font-family: Arial, Helvetica, sans-serif;
+}

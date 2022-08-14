@@ -1,0 +1,50 @@
+.thong-tin {
+  padding-left: 70px;
+}
+#outer {
+  width: 100%;
+  text-align: center;
+}
+.inner {
+  display: inline-block;
+}
+.btn-save {
+  width: 150px;
+  background-color: #00bfff;
+  color: aliceblue;
+  font-weight: bold;
+  font-size: 20px;
+}
+.btn-back {
+  width: 150px;
+  background-color: #f08080;
+  color: aliceblue;
+  font-weight: bold;
+  font-size: 20px;
+  margin-right: 20px;
+}
+
+.group-edit {
+  border: 2px solid rgb(235, 237, 240);
+  padding: 5px;
+}
+
+nz-page-header {
+  border: 3px solid rgb(235, 237, 240);
+  margin-top: 20px;
+  background:rgb(0, 191, 255);
+
+}
+
+nz-breadcrumb {
+  margin-top: 20px;
+}
+
+nz-breadcrumb-item {
+  font-size: 20px;
+  font-weight: bold;
+}
+.btn-delete {
+  color: white;
+  background-color: red;
+}

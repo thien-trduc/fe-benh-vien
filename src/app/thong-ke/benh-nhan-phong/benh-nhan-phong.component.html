@@ -1,0 +1,58 @@
+<div class="wrap">
+  <nz-breadcrumb>
+    <nz-breadcrumb-item>
+      <a routerLink="/"> Trang chủ </a>
+    </nz-breadcrumb-item>
+    <nz-breadcrumb-item>
+      <a [routerLink]="listRoute">
+        {{ title }}
+      </a>
+    </nz-breadcrumb-item>
+  </nz-breadcrumb>
+
+  <nz-page-header [nzGhost]="false">
+    <nz-page-header-title
+      ><span style="color: aliceblue"
+        ><i nz-icon nzType="profile" nzTheme="outline"></i> {{ title }}</span
+      ></nz-page-header-title
+    >
+    <nz-page-header-subtitle class="outer">
+      <div class="inner">
+        <nz-select
+          style="width: 180px;"
+          nzAllowClear
+          nzPlaceHolder="Chọn Khoa"
+          [(ngModel)]="maKhoa"
+        >
+          <nz-option
+            *ngFor="let o of khoas"
+            [nzLabel]="o.tenKhoa"
+            [nzValue]="o.maKhoa"
+          >
+          </nz-option>
+        </nz-select>
+      </div>
+      <div class="inner">
+        <button nz-button nzBlock (click)="thongKePhongBenhNhan()" class="btn-xem">
+          <i nz-icon nzType="right-circle" nzTheme="outline"></i>
+          Xem
+        </button>
+      </div>
+    </nz-page-header-subtitle>
+  </nz-page-header>
+  <div *ngIf="showChart" style="height: 500px; width: 1200px">
+    <ngx-charts-bar-vertical
+      [view]="view"
+      [results]="single"
+      [gradient]="gradient"
+      [xAxis]="showXAxis"
+      [yAxis]="showYAxis"
+      [showXAxisLabel]="showXAxisLabel"
+      [showYAxisLabel]="showYAxisLabel"
+      [xAxisLabel]="xAxisLabel"
+      [yAxisLabel]="yAxisLabel"
+      [scheme]="colorScheme"
+    >
+    </ngx-charts-bar-vertical>
+  </div>
+</div>

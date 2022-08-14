@@ -1,0 +1,257 @@
+<nz-breadcrumb>
+  <nz-breadcrumb-item>
+    <a routerLink="/"> Trang chủ </a>
+  </nz-breadcrumb-item>
+  <nz-breadcrumb-item>
+    <a [routerLink]="listRoute"> {{ title }} </a>
+  </nz-breadcrumb-item>
+  <nz-breadcrumb-item> Tạo Mới </nz-breadcrumb-item>
+</nz-breadcrumb>
+<nz-page-header>
+  <nz-page-header-title
+    ><span style="color: aliceblue"
+      >Thêm {{ title }}</span
+    ></nz-page-header-title
+  >
+</nz-page-header>
+
+<nz-steps [nzCurrent]="current">
+  <nz-step nzTitle="Hồ Sơ Bệnh Nhân"></nz-step>
+  <nz-step nzTitle="Phân Công Bác Sĩ"></nz-step>
+  <nz-step nzTitle="Y tá hỗ trợ"></nz-step>
+  <nz-step nzTitle="Thông tin bệnh án"></nz-step>
+</nz-steps>
+<form nz-form [formGroup]="validateForm" (ngSubmit)="submitForm()">
+<div class="steps-content">
+  <div *ngIf="current === 0">
+    <app-benh-nhan-list
+      (eventCMND)="onGetBenhNhan($event)"
+    ></app-benh-nhan-list>
+  </div>
+  <div *ngIf="current === 1">
+    <app-bac-si-list (eventBacSi)="onGetBacSi($event)"></app-bac-si-list>
+  </div>
+  <div *ngIf="current === 2">
+    <app-yta-list (eventYta)="onGetYta($event)"></app-yta-list>
+  </div>
+  <div *ngIf="current === 3">
+    
+      <nz-form-item nz-row>
+        <div nz-col [nzSpan]="12">
+    
+          <nz-form-item>
+            <nz-form-label [nzSm]="8" [nzXs]="24" nzRequired nzFor="cmnd"
+              >Bệnh Nhân
+            </nz-form-label>
+    
+            <nz-form-control
+              [nzSm]="14"
+              [nzXs]="24"
+              nzErrorTip="Vui lòng chọn bệnh nhân ở danh sách !"
+            >
+              <span class="thong-tin-chon">
+                {{ benhNhan ? benhNhan.hoTen : 'Chưa chọn bệnh nhân' }}
+              </span>
+              <input
+                nz-input
+                [value]="benhNhan ? benhNhan.cmnd : ''"
+                formControlName="cmnd"
+                hidden
+              />
+            </nz-form-control>
+          </nz-form-item>
+    
+          <nz-form-item>
+            <nz-form-label [nzSm]="8" [nzXs]="24" nzRequired nzFor="maBacSi"
+              >Bác sĩ khám
+            </nz-form-label>
+    
+            <nz-form-control
+              [nzSm]="14"
+              [nzXs]="24"
+              nzErrorTip="Vui lòng chọn bác sĩ trên danh sách ! "
+            >
+              <span class="thong-tin-chon">
+                {{ bacSi ? bacSi.hoTen : 'Chưa chọn bác sĩ' }}
+              </span>
+              <input
+                nz-input
+                [value]="bacSi ? bacSi.maNV : ''"
+                formControlName="maBacSi"
+                hidden
+              />
+            </nz-form-control>
+          </nz-form-item>
+    
+          <nz-form-item>
+            <nz-form-label [nzSm]="8" [nzXs]="24" nzFor="maYta"
+              >Y tá hỗ trợ
+            </nz-form-label>
+    
+            <nz-form-control [nzSm]="14" [nzXs]="24">
+              <span class="thong-tin-chon">
+                {{ yTa ? yTa.hoTen : 'Chưa chọn y tá' }}
+              </span>
+              <input
+                nz-input
+                [value]="yTa ? yTa.maNV : ''"
+                formControlName="maYta"
+                hidden
+              />
+            </nz-form-control>
+          </nz-form-item>
+    
+          <nz-form-item>
+            <nz-form-label [nzSm]="8" [nzXs]="24" nzRequired nzFor="ngayKham"
+              >Chọn thời gian khám
+            </nz-form-label>
+            <nz-form-control
+              [nzSm]="16"
+              [nzXs]="24"
+              nzErrorTip="Vui lòng chọn thời gian"
+            >
+              <nz-date-picker
+                placeholder="Thời gian khám"
+                [nzDisabledDate]="disabledDate"
+                formControlName="ngayKham"
+                nzShowTime="true"
+                nzSize="large"
+              ></nz-date-picker>
+            </nz-form-control>
+          </nz-form-item>
+        </div>
+        <div nz-col [nzSpan]="12">
+          <nz-form-item>
+            <nz-form-label [nzSm]="4" [nzXs]="24" nzFor="chieuCao"
+              >Chiều cao
+            </nz-form-label>
+            <nz-form-control
+              [nzSm]="14"
+              [nzXs]="24"
+              nzErrorTip="Chiều cao phải là số"
+            >
+              <input
+                nz-input
+                placeholder="Chiều cao"
+                formControlName="chieuCao"
+                class="form-input"
+              />
+            </nz-form-control>
+          </nz-form-item>
+    
+          <nz-form-item>
+            <nz-form-label [nzSm]="4" [nzXs]="24" nzFor="canNang"
+              >Cân nặng
+            </nz-form-label>
+            <nz-form-control
+              [nzSm]="14"
+              [nzXs]="24"
+              nzErrorTip="Cân nặng phải là số"
+            >
+              <input
+                placeholder="Cân nặng"
+                class="form-input"
+                nz-input
+                formControlName="canNang"
+              />
+            </nz-form-control>
+          </nz-form-item>
+    
+          <nz-form-item>
+            <nz-form-label rows="4" [nzSm]="4" [nzXs]="24" nzFor="tienSu"
+              >Tiền sử
+            </nz-form-label>
+            <nz-form-control [nzSm]="14" [nzXs]="24">
+              <textarea
+                placeholder="Tiền sử (bệnh nền)"
+                class="form-input"
+                rows="4"
+                nz-input
+                formControlName="tienSu"
+              ></textarea>
+            </nz-form-control>
+          </nz-form-item>
+    
+          <nz-form-item>
+            <nz-form-label
+              rows="4"
+              [nzSm]="4"
+              [nzXs]="24"
+              nzRequired
+              nzFor="chanDoan"
+              >Chẩn đoán
+            </nz-form-label>
+            <nz-form-control
+              [nzSm]="14"
+              [nzXs]="24"
+              nzErrorTip="Vui lòng nhập chẩn đoán !"
+            >
+              <textarea
+                placeholder="Chẩn đoán bệnh"
+                class="form-input"
+                rows="4"
+                nz-input
+                formControlName="chanDoan"
+              ></textarea>
+            </nz-form-control>
+          </nz-form-item>
+    
+          <nz-form-item>
+            <nz-form-label
+              rows="2"
+              [nzSm]="4"
+              [nzXs]="24"
+              nzRequired
+              nzFor="tinhTrang"
+              >Tình trạng
+            </nz-form-label>
+            <nz-form-control
+              [nzSm]="14"
+              [nzXs]="24"
+              nzErrorTip="Vui lòng nhập tình trạng !"
+            >
+              <textarea
+                class="form-input"
+                rows="4"
+                nz-input
+                formControlName="tinhTrang"
+                placeholder="Tình trạng bệnh nhân"
+              ></textarea>
+            </nz-form-control>
+          </nz-form-item>
+        </div>
+      </nz-form-item>
+  </div>
+</div>
+  <div class="steps-action">
+    <button nz-button nzBlock class="btn-back"  type="button" (click)="pre()" >
+      <i
+        nz-icon
+        nzType="left-circle"
+        style="font-size: large"
+        nzTheme="fill"
+      ></i>
+      Quay Lại
+    </button>
+    <button nz-button class="btn-save" type="button" (click)="next()" *ngIf="current < 3">
+      <i
+        nz-icon
+        nzType="save"
+        style="font-size: large"
+        nzTheme="fill"
+        class="icon-btn"
+      ></i>
+      Tiếp theo
+    </button>
+    <button nz-button class="btn-save" type="submit" *ngIf="current === 3">
+      <i
+        nz-icon
+        nzType="save"
+        style="font-size: large"
+        nzTheme="fill"
+        class="icon-btn"
+      ></i>
+      Hoàn Tất
+    </button>
+  </div>
+</form> 

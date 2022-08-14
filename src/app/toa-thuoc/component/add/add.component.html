@@ -1,0 +1,331 @@
+<nz-breadcrumb>
+  <nz-breadcrumb-item>
+    <a routerLink="/"> Trang chủ </a>
+  </nz-breadcrumb-item>
+  <nz-breadcrumb-item>
+    <a [routerLink]="listRoute"> {{ title }} </a>
+  </nz-breadcrumb-item>
+  <nz-breadcrumb-item> Tạo Mới </nz-breadcrumb-item>
+</nz-breadcrumb>
+<nz-page-header>
+  <nz-page-header-title
+    ><span style="color: aliceblue"
+      >Thêm {{ title }}</span
+    ></nz-page-header-title
+  >
+</nz-page-header>
+<form nz-form [formGroup]="validateForm" (ngSubmit)="submitForm()">
+  <nz-form-item nz-row>
+    <div nz-col [nzSpan]="12">
+      <nz-form-item>
+        <nz-form-item>
+          <!-- <nz-form-label [nzSm]="6" [nzXs]="24" nzRequired nzFor="idCtKham"
+            >Khám
+          </nz-form-label> -->
+          <nz-form-control
+            [nzSm]="14"
+            [nzXs]="24"
+            nzErrorTip="Vui lòng chọn mã khám"
+          >
+            <input
+              nz-input
+              [value]="khamSelected ? khamSelected : null"
+              formControlName="idCtKham"
+              hidden
+            />
+
+            <!-- <button
+              nz-button
+              class="btn-save"
+              type="button"
+              (click)="showModalKham()"
+            >
+              <i
+                nz-icon
+                nzType="edit"
+                style="font-size: large"
+                nzTheme="fill"
+                class="icon-btn"
+              ></i>
+              Chọn
+            </button> -->
+          </nz-form-control>
+        </nz-form-item>
+        
+      </nz-form-item>
+
+      <nz-form-item>
+        <nz-form-label [nzSm]="6" [nzXs]="24" nzFor="thucHienYLenh"
+          >Y lệnh
+        </nz-form-label>
+        <nz-form-control [nzSm]="14" [nzXs]="24" nzErrorTip="Vui lòng nhập y lệnh">
+          <textarea rows="4" nz-input formControlName="thucHienYLenh"></textarea>
+        </nz-form-control>
+      </nz-form-item>
+
+      <nz-form-item>
+        <nz-form-label [nzSm]="6" [nzXs]="24"> Bác sĩ kê </nz-form-label>
+        <nz-form-control [nzSm]="14" [nzXs]="24">
+          <span class="thong-tin-benh-nhan">{{ kham ? kham?.bacSi.hoTen : '' }}</span>
+        </nz-form-control>
+      </nz-form-item>
+    </div>
+    <div nz-col [nzSpan]="12" *ngIf="kham">
+      <nz-form-item>
+        <nz-form-label [nzSm]="6" [nzXs]="24"> Bệnh án </nz-form-label>
+        <nz-form-control [nzSm]="14" [nzXs]="24">
+          <span class="thong-tin-benh-nhan">{{ kham ? kham?.benhAn.maBA : '' }}</span>
+        </nz-form-control>
+      </nz-form-item>
+      <nz-form-item>
+        <nz-form-label [nzSm]="6" [nzXs]="24"> Chứng minh thư </nz-form-label>
+        <nz-form-control [nzSm]="14" [nzXs]="24">
+          <span class="thong-tin-benh-nhan">{{ kham ? kham?.benhAn.benhNhan.cmnd : '' }}</span>
+        </nz-form-control>
+      </nz-form-item>
+      <nz-form-item>
+        <nz-form-label [nzSm]="6" [nzXs]="24"> Ngày khảm </nz-form-label>
+        <nz-form-control [nzSm]="14" [nzXs]="24">
+          <span class="thong-tin-benh-nhan">{{ kham ? formatDate(kham?.ngayKham) : '' }}</span>
+        </nz-form-control>
+      </nz-form-item>
+      <nz-form-item>
+        <nz-form-label [nzSm]="6" [nzXs]="24"> Bệnh Nhân </nz-form-label>
+        <nz-form-control [nzSm]="14" [nzXs]="24">
+          <span class="thong-tin-benh-nhan"> {{ kham ? kham?.benhAn.benhNhan.hoTen : '' }}</span>
+        </nz-form-control>
+      </nz-form-item>
+    </div>
+  </nz-form-item>
+
+  <nz-form-item nz-nz-row>
+    <div class="outer">
+      <div class="inner">
+        <a [routerLink]="listRoute">
+          <button nz-button nzBlock class="btn-back" type="button">
+            <i
+              nz-icon
+              nzType="left-circle"
+              style="font-size: large"
+              nzTheme="fill"
+            ></i>
+            Quay Lại
+          </button>
+        </a>
+      </div>
+      <div class="inner">
+        <button nz-button class="btn-save" type="submit">
+          <i
+            nz-icon
+            nzType="save"
+            style="font-size: large"
+            nzTheme="fill"
+            class="icon-btn"
+          ></i>
+          Lưu
+        </button>
+      </div>
+    </div>
+  </nz-form-item>
+</form>
+<div style="margin-top: 20px">
+  <div class="flex-box-2">
+    <button nz-button nzBlock class="btn-add" (click)="showChiTietModal()">
+      <i nz-icon nzType="plus-circle" nzTheme="outline" class="icon-btn"></i>
+      Thêm thuốc
+    </button>
+  </div>
+  <nz-table
+    #ajaxtable
+    nzNoResult="Chưa co chi tiết được chọn"
+    nzBordered
+    [nzData]="chiTietToas"
+  >
+    <thead>
+      <tr>
+        <th><span>Thuốc</span></th>
+        <th><span>Số Lượng</span></th>
+        <th><span>Đơn giá</span></th>
+        <th><span>Tổng tiền</span></th>
+        <th>Thao tác</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr *ngFor="let data of ajaxtable.data">
+        <td>{{ data.maThuoc }}</td>
+        <td>{{ data.soLuong }}</td>
+        <td>{{ formatCurrency(data.donGia) }}</td>
+        <td>{{ formatCurrency(data.donGia * data.soLuong) }}</td>
+        <td>
+          <div class="outer">
+            <div class="inner">
+              <button
+                type="button"
+                nzOkType="danger"
+                nz-popconfirm
+                nzPopconfirmTitle="Chắc chắn xóa ?"
+                (nzOnConfirm)="deleteChiTietThuoc(data.maThuoc)"
+                nz-button
+                nzBlock
+                class="btn-delete"
+              >
+                <i nz-icon nzType="delete" nzTheme="fill" class="icon-btn"></i>
+                Xóa
+              </button>
+            </div>
+          </div>
+        </td>
+      </tr>
+    </tbody>
+  </nz-table>
+</div>
+<nz-modal
+  [(nzVisible)]="modalChiTiets"
+  nzTitle="Thêm thuốc"
+  (nzOnCancel)="cancelModalChiTiet()"
+>
+  <form
+    nz-form
+    [formGroup]="validateFormChonThuoc"
+    (ngSubmit)="submitChonThuoc()"
+  >
+    <nz-form-item>
+      <nz-form-label [nzSm]="6" [nzXs]="24" nzRequired nzFor="maThuoc"
+        >Thuốc
+      </nz-form-label>
+
+      <nz-form-control
+        [nzSm]="14"
+        [nzXs]="24"
+        nzErrorTip="Vui lòng nhập mã toa ! Dạng TT-123456 !"
+      >
+        <span *ngIf="thuocSelecteds">
+          {{ thuocSelecteds.tenThuoc }}
+        </span>
+        <input
+          nz-input
+          [value]="this.thuocSelecteds ? this.thuocSelecteds.maThuoc : ''"
+          formControlName="maThuoc"
+          disabled
+          hidden
+        />
+
+        <button
+          nz-button
+          class="btn-save"
+          type="button"
+          (click)="showModalAddThuoc()"
+        >
+          <i
+            nz-icon
+            nzType="edit"
+            style="font-size: large"
+            nzTheme="fill"
+            class="icon-btn"
+          ></i>
+          Chọn
+        </button>
+      </nz-form-control>
+    </nz-form-item>
+
+    <nz-form-item>
+      <nz-form-label [nzSm]="6" [nzXs]="24" nzRequired nzFor="soLuong"
+        >Số lượng
+      </nz-form-label>
+      <nz-form-control
+        [nzSm]="14"
+        [nzXs]="24"
+        nzErrorTip="Vui lòng nhập số lượng"
+      >
+        <input nz-input formControlName="soLuong" />
+      </nz-form-control>
+    </nz-form-item>
+
+    <nz-form-item>
+      <nz-form-label [nzSm]="6" [nzXs]="24" nzRequired nzFor="donGia"
+        >Đơn Giá
+      </nz-form-label>
+      <nz-form-control
+        [nzSm]="14"
+        [nzXs]="24"
+        nzErrorTip="Vui lòng nhập số lượng"
+      >
+        <input
+          nz-input
+          [value]="this.thuocSelecteds ? this.thuocSelecteds.gia : 0"
+          formControlName="donGia"
+          disabled
+        />
+      </nz-form-control>
+    </nz-form-item>
+
+    <nz-form-item>
+      <nz-form-label [nzSm]="6" [nzXs]="24" nzRequired nzFor="cachDung">
+        Cách dùng
+      </nz-form-label>
+      <nz-form-control
+        [nzSm]="14"
+        [nzXs]="24"
+        nzErrorTip="Vui lòng nhập cách dùng"
+      >
+        <textarea rows="4" nz-input formControlName="cachDung"></textarea>
+      </nz-form-control>
+    </nz-form-item>
+    <nz-form-item nz-nz-row>
+      <div class="outer">
+        <div class="inner">
+          <button
+            nz-button
+            nzBlock
+            class="btn-back"
+            type="button"
+            (click)="cancelModalChiTiet()"
+          >
+            <i
+              nz-icon
+              nzType="left-circle"
+              style="font-size: large"
+              nzTheme="fill"
+            ></i>
+            Quay Lại
+          </button>
+        </div>
+        <div class="inner">
+          <button nz-button class="btn-save" type="submit">
+            <i
+              nz-icon
+              nzType="save"
+              style="font-size: large"
+              nzTheme="fill"
+              class="icon-btn"
+            ></i>
+            Lưu
+          </button>
+        </div>
+      </div>
+    </nz-form-item>
+  </form>
+  <div *nzModalFooter></div>
+</nz-modal>
+<nz-modal
+  [(nzVisible)]="modalAddThuoc"
+  nzTitle="Chọn Thuốc"
+  (nzOnCancel)="cancelModalAddThuoc()"
+  nzWidth="1000"
+>
+  <app-thuoc-list (eventThuoc)="onGetThuoc($event)"></app-thuoc-list>
+  <div *nzModalFooter></div>
+</nz-modal>
+
+<nz-modal
+  [(nzVisible)]="modalKhams"
+  nzTitle="Chọn Thời Điểm Khám"
+  (nzOnCancel)="cancelModalKham()"
+  style="width: 700px; height: auto"
+  nzWidth="1000"
+>
+  <app-kham-select-list
+    (eventKhamSelect)="onGetKham($event)"
+  ></app-kham-select-list>
+  <div *nzModalFooter></div>
+</nz-modal>

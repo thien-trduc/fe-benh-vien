@@ -1,0 +1,236 @@
+<div>
+  <nz-breadcrumb>
+    <nz-breadcrumb-item>
+      <a routerLink="/"> Trang chủ </a>
+    </nz-breadcrumb-item>
+    <nz-breadcrumb-item>
+      <a [routerLink]="listRoute"> {{ title }} </a>
+    </nz-breadcrumb-item>
+    <nz-breadcrumb-item> Chi tiết </nz-breadcrumb-item>
+  </nz-breadcrumb>
+
+  <nz-page-header>
+    <nz-page-header-title>
+      <span style="color: aliceblue">
+        <i nz-icon nzType="file-text" nzTheme="outline"></i> Thông Tin
+        {{ title }}</span
+      >
+    </nz-page-header-title>
+    <nz-page-header-subtitle>
+      <div class="outer">
+        <div class="inner" *ngIf="!isXuatHoaDon">
+          <button
+            nz-button
+            nzType="primary"
+            class="btn-tam-ung"
+            (click)="redirectPhieuTamUng()"
+          >
+            <i nz-icon nzType="container" nzTheme="outline"></i>Phiếu Tạm Ứng
+          </button>
+        </div>
+        <div class="inner" style="margin-right: 10px; margin-left: 10px">
+          <button
+            nz-button
+            nzType="primary"
+            class="btn-phieu-xuat-vien"
+            (click)="redirectPhieuXuatVien()"
+          >
+            <i nz-icon nzType="container" nzTheme="outline"></i>Phiếu Xuất Viện
+          </button>
+        </div>
+        <div class="inner">
+          <button
+            nz-button
+            nzType="primary"
+            class="btn-hoa-don"
+            (click)="redirectHoaDon()"
+          >
+            <i nz-icon nzType="container" nzTheme="outline"></i>Xuất Hóa Đơn
+          </button>
+        </div>
+      </div>
+    </nz-page-header-subtitle>
+  </nz-page-header>
+
+  <div nz-row class="group-edit">
+    <div nz-col nzSpan="6">
+      <nz-card
+        nzHoverable
+        style="width: 300px; height: 300px; margin-left: 50px; margin-top: 20px"
+        [nzCover]="coverTemplate"
+      >
+        <nz-card-meta></nz-card-meta>
+      </nz-card>
+      <ng-template #coverTemplate>
+        <div class="img-info">
+          <img
+            [alt]="hinhAnh"
+            [src]="hinhAnh"
+            style="width: 300px; height: 300px"
+          />
+          <span >Mã bệnh án: {{ benhAn.maBA }}</span>
+        </div>
+      </ng-template>
+    </div>
+    <div nz-col nzSpan="18" class="thong-tin">
+      <form
+        nzLayout="vertical"
+        nz-form
+        [formGroup]="validateForm"
+        (ngSubmit)="submitForm()"
+      >
+        <nz-form-item nz-row>
+          <div nz-col [nzSpan]="12">
+            <nz-form-item>
+              <nz-form-label [nzSm]="6" [nzXs]="24">
+                Chứng minh thư :
+              </nz-form-label>
+              <nz-form-control [nzSm]="14" [nzXs]="24">
+                <span class="thong-tin-benh-nhan">{{ benhNhan.cmnd }}</span>
+              </nz-form-control>
+            </nz-form-item>
+
+            <nz-form-item>
+              <nz-form-label [nzSm]="6" [nzXs]="24">Họ tên : </nz-form-label>
+              <nz-form-control [nzSm]="14" [nzXs]="24">
+                <span class="thong-tin-benh-nhan"> {{ benhNhan.hoTen }}</span>
+              </nz-form-control>
+            </nz-form-item>
+
+            <nz-form-item>
+              <nz-form-label [nzSm]="6" [nzXs]="24">Giới tính : </nz-form-label>
+              <nz-form-control [nzSm]="14" [nzXs]="24">
+                <span class="thong-tin-benh-nhan">{{ benhNhan.gioiTinh }}</span>
+              </nz-form-control>
+            </nz-form-item>
+
+            <nz-form-item>
+              <nz-form-label [nzSm]="6" [nzXs]="24"
+                >Bảo hiểm y tế :
+              </nz-form-label>
+              <nz-form-control [nzSm]="14" [nzXs]="24">
+                <span class="thong-tin-benh-nhan">{{ benhNhan.bhyt }}</span>
+              </nz-form-control>
+            </nz-form-item>
+          </div>
+
+          <div nz-col [nzSpan]="12">
+            <nz-form-item>
+              <nz-form-label [nzSm]="6" [nzXs]="24" nzRequired nzFor="chieuCao"
+                >Chiều cao :
+              </nz-form-label>
+              <nz-form-control
+                [nzSm]="14"
+                [nzXs]="24"
+                nzErrorTip="Chiều cao phải là số !"
+              >
+                <input
+                  size="40"
+                  [value]="benhAn.chieuCao"
+                  nz-input
+                  formControlName="chieuCao"
+                />
+              </nz-form-control>
+            </nz-form-item>
+
+            <nz-form-item>
+              <nz-form-label [nzSm]="6" [nzXs]="24" nzRequired nzFor="canNang"
+                >Cân nặng :</nz-form-label
+              >
+              <nz-form-control [nzSm]="14" [nzXs]="24" nzErrorTip="Cân nặng !">
+                <input
+                  size="40"
+                  [value]="benhAn.canNang"
+                  nz-input
+                  formControlName="canNang"
+                />
+              </nz-form-control>
+            </nz-form-item>
+
+            <nz-form-item>
+              <nz-form-label rows="4" [nzSm]="6" [nzXs]="24" nzFor="tienSu"
+                >Tiền sử :
+              </nz-form-label>
+              <nz-form-control [nzSm]="14" [nzXs]="24">
+                <textarea
+                  rows="4"
+                  nz-input
+                  [value]="benhAn.tienSu"
+                  formControlName="tienSu"
+                ></textarea>
+              </nz-form-control>
+            </nz-form-item>
+
+            <nz-form-item>
+              <div class="outer">
+                <div class="inner">
+                  <a [routerLink]="listRoute">
+                    <button nz-button nzBlock class="btn-back">
+                      <i
+                        nz-icon
+                        nzType="left-circle"
+                        style="font-size: large"
+                        nzTheme="fill"
+                      ></i>
+                      Quay Lại
+                    </button>
+                  </a>
+                </div>
+                <div class="inner">
+                  <button nz-button class="btn-save" type="submit">
+                    <i
+                      nz-icon
+                      nzType="save"
+                      style="font-size: large"
+                      nzTheme="fill"
+                      class="icon-btn"
+                    ></i>
+                    Lưu
+                  </button>
+                </div>
+              </div>
+            </nz-form-item>
+          </div>
+        </nz-form-item>
+      </form>
+    </div>
+  </div>
+  <div class="group-kham">
+    <nz-tabset nzSize="lagre">
+      <nz-tab [nzTitle]="titleTabKham">
+        <ng-template #titleTabKham>
+          <div class="tab">
+            <i nz-icon nzType="medicine-box" nzTheme="outline"></i>
+            <span>Khám Bệnh</span>
+          </div>
+        </ng-template>
+
+        <app-kham-ba-list
+          (eventBacSiChiDinh)="onGetBacSiChiDinh($event)"
+          [isXuatHoaDon]="isXuatHoaDon"
+        ></app-kham-ba-list>
+      </nz-tab>
+      <nz-tab [nzTitle]="titleTabDv">
+        <ng-template #titleTabDv>
+          <div class="tab">
+            <i nz-icon nzType="experiment" nzTheme="outline"></i>
+            <span>Sử Dụng Dịch Vụ</span>
+          </div>
+        </ng-template>
+        <app-ct-dich-vu
+          [maNV]="maBacSiChiDinh"
+          [isXuatHoaDon]="isXuatHoaDon"
+        ></app-ct-dich-vu>
+      </nz-tab>
+      <nz-tab [nzTitle]="titleThueGiuong">
+        <ng-template #titleThueGiuong>
+          <div class="tab">
+            <i nz-icon nzType="folder-add" nzTheme="outline"></i>
+            <span>Thuê Giường</span>
+          </div>
+        </ng-template>
+        <app-thue-giuong [isXuatHoaDon]="isXuatHoaDon"></app-thue-giuong>
+      </nz-tab>
+    </nz-tabset>
+  </div>
+</div>

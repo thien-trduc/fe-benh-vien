@@ -1,0 +1,205 @@
+<nz-breadcrumb>
+  <nz-breadcrumb-item>
+    <a routerLink="/"> Trang chủ </a>
+  </nz-breadcrumb-item>
+  <nz-breadcrumb-item>
+    <a [routerLink]="listRoute"> {{ title }} </a>
+  </nz-breadcrumb-item>
+  <nz-breadcrumb-item> Tạo Mới </nz-breadcrumb-item>
+</nz-breadcrumb>
+<nz-page-header>
+  <nz-page-header-title>Thêm {{ title }} </nz-page-header-title>
+</nz-page-header>
+<form nz-form [formGroup]="validateForm" (ngSubmit)="submitForm()">
+  <nz-form-item nz-row>
+    <div nz-col [nzSpan]="12">
+      <nz-form-item>
+        <nz-form-label [nzSm]="6" [nzXs]="24" nzRequired nzFor="hoTen"
+          >Họ tên
+        </nz-form-label>
+        <nz-form-control
+          [nzSm]="14"
+          [nzXs]="24"
+          nzErrorTip="Vui lòng nhập họ tên !"
+        >
+          <input size="40" nz-input formControlName="hoTen" />
+        </nz-form-control>
+      </nz-form-item>
+
+      <nz-form-item>
+        <nz-form-label [nzSm]="6" [nzXs]="24" nzRequired nzFor="ngaySinh"
+          >Ngày sinh</nz-form-label
+        >
+        <nz-form-control
+          [nzSm]="16"
+          [nzXs]="24"
+          nzErrorTip="Vui lòng chọn ngày sinh"
+        >
+          <nz-date-picker formControlName="ngaySinh"></nz-date-picker>
+        </nz-form-control>
+      </nz-form-item>
+
+      <nz-form-item>
+        <nz-form-label [nzSm]="6" [nzXs]="24" nzRequired nzFor="gioiTinh"
+          >Giới Tính</nz-form-label
+        >
+        <nz-form-control [nzSm]="16" [nzXs]="24" nzErrorTip="Chọn giới tính">
+          <nz-select
+            nzAllowClear
+            nzPlaceHolder="Vui lòng chọn giới tính"
+            formControlName="gioiTinh"
+          >
+            <nz-option nzValue="NAM" nzLabel="NAM"></nz-option>
+            <nz-option nzValue="NỮ" nzLabel="NỮ"></nz-option>
+          </nz-select>
+        </nz-form-control>
+      </nz-form-item>
+
+      <nz-form-item>
+        <nz-form-label [nzSm]="6" [nzXs]="24" nzRequired nzFor="diaChi"
+          >Địa chỉ</nz-form-label
+        >
+        <nz-form-control
+          [nzSm]="14"
+          [nzXs]="24"
+          nzErrorTip="Vui lòng nhập địa chỉ !"
+        >
+          <input size="40" nz-input formControlName="diaChi" />
+        </nz-form-control>
+      </nz-form-item>
+
+      <nz-form-item>
+        <nz-form-label [nzSm]="6" [nzXs]="24" nzRequired nzFor="maKhoa"
+          >Khoa :
+        </nz-form-label>
+        <nz-form-control
+          [nzSm]="14"
+          [nzXs]="24"
+          nzErrorTip="Vui lòng chọn khoa!"
+        >
+          <nz-select
+            nzAllowClear
+            nzPlaceHolder="Chọn Khoa"
+            formControlName="maKhoa"
+          >
+            <nz-option
+              *ngFor="let o of khoas"
+              [nzLabel]="o.tenKhoa"
+              [nzValue]="o.maKhoa"
+            >
+            </nz-option>
+          </nz-select>
+        </nz-form-control>
+      </nz-form-item>
+    </div>
+
+    <div nz-col [nzSpan]="12">
+      <nz-form-item>
+        <nz-form-label [nzSm]="6" [nzXs]="24" nzRequired nzFor="soDienThoai"
+          >Số điện thoại
+        </nz-form-label>
+        <nz-form-control
+          [nzSm]="14"
+          [nzXs]="24"
+          nzErrorTip="Vui lòng nhập đúng số điện thoại !"
+        >
+          <input size="40" nz-input formControlName="soDienThoai" />
+        </nz-form-control>
+      </nz-form-item>
+
+      <nz-form-item>
+        <nz-form-label [nzSm]="6" [nzXs]="24" nzFor="email"
+          >Email
+        </nz-form-label>
+        <nz-form-control
+          [nzSm]="14"
+          [nzXs]="24"
+          nzErrorTip="Vui lòng nhập đúng địa chỉ email ! "
+        >
+          <input size="40" nz-input formControlName="email" />
+        </nz-form-control>
+      </nz-form-item>
+
+      <nz-form-item>
+        <nz-form-label [nzSm]="6" [nzXs]="24" nzFor="chucVu"
+          >Chức Vụ:
+        </nz-form-label>
+        <nz-form-control [nzSm]="14" [nzXs]="24">
+          <input size="40" nz-input formControlName="chucVu" />
+        </nz-form-control>
+      </nz-form-item>
+
+      <nz-form-item>
+        <nz-form-label [nzSm]="6" [nzXs]="24" nzRequired nzFor="maLoaiNV"
+          >Loại nhân viên :
+        </nz-form-label>
+        <nz-form-control
+          [nzSm]="14"
+          [nzXs]="24"
+          nzErrorTip="Vui lòng chọn loại nhân viên "
+        >
+          <nz-select
+            nzAllowClear
+            nzPlaceHolder="Chọn loại nhân viên"
+            formControlName="maLoaiNV"
+          >
+            <nz-option
+              *ngFor="let o of loaiNvs"
+              [nzLabel]="o.tenLoai"
+              [nzValue]="o.maLoaiNV"
+            >
+            </nz-option>
+          </nz-select>
+        </nz-form-control>
+      </nz-form-item>
+
+      <nz-form-item>
+        <nz-form-label [nzSm]="6" [nzXs]="24" nzFor="hinhAnh">
+          Hình ảnh:
+        </nz-form-label>
+        <nz-form-control [nzSm]="14" [nzXs]="24">
+          <nz-upload
+            [nzAction]="apiUpload"
+            nzListType="picture-card"
+            [(nzFileList)]="files"
+            [nzShowButton]="!files.length"
+            [nzCustomRequest]="customReq"
+          >
+            <i nz-icon nzType="plus" class="upload-icon"></i>
+            <div class="ant-upload-text">Upload</div>
+          </nz-upload>
+        </nz-form-control>
+      </nz-form-item>
+    </div>
+  </nz-form-item>
+
+  <nz-form-item nz-nz-row>
+    <div class="outer">
+      <div class="inner">
+        <a [routerLink]="listRoute">
+          <button nz-button nzBlock class="btn-back">
+            <i
+              nz-icon
+              nzType="left-circle"
+              style="font-size: large"
+              nzTheme="fill"
+            ></i>
+            Quay Lại
+          </button>
+        </a>
+      </div>
+      <div class="inner">
+        <button nz-button class="btn-save" type="submit">
+          <i
+            nz-icon
+            nzType="save"
+            style="font-size: large"
+            nzTheme="fill"
+            class="icon-btn"
+          ></i>
+          Lưu
+        </button>
+      </div>
+    </div>
+  </nz-form-item>
+</form>

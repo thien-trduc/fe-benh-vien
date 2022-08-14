@@ -1,0 +1,345 @@
+<div>
+  <nz-breadcrumb>
+    <nz-breadcrumb-item>
+      <a routerLink="/"> Trang chủ </a>
+    </nz-breadcrumb-item>
+    <nz-breadcrumb-item>
+      <a [routerLink]="listRoute"> {{ title }} </a>
+    </nz-breadcrumb-item>
+    <nz-breadcrumb-item> Chi tiết </nz-breadcrumb-item>
+  </nz-breadcrumb>
+
+  <nz-page-header>
+    <nz-page-header-title
+      ><span style="color: white"
+        >Thông Tin {{ title }}</span
+      ></nz-page-header-title
+    >
+    <nz-page-header-subtitle> </nz-page-header-subtitle>
+  </nz-page-header>
+
+  <div nz-row class="group-edit">
+    <div nz-col nzSpan="6">
+      <nz-card
+        nzHoverable
+        style="width: 300px; height: 300px; margin-left: 50px; margin-top: 20px"
+        [nzCover]="coverTemplate"
+      >
+        <nz-card-meta></nz-card-meta>
+      </nz-card>
+      <ng-template #coverTemplate>
+        <img
+          [alt]="benhNhan.hinhAnh"
+          [src]="benhNhan.hinhAnh"
+          style="width: 300px; height: 300px"
+        />
+      </ng-template>
+    </div>
+    <div nz-col nzSpan="18" class="thong-tin">
+      <form
+        nzLayout="vertical"
+        nz-form
+        [formGroup]="validateForm"
+        (ngSubmit)="submitForm()"
+      >
+        <nz-form-item nz-row>
+          <div nz-col [nzSpan]="12">
+            <nz-form-item>
+              <nz-form-label [nzSm]="6" [nzXs]="24" nzRequired nzFor="cmnd"
+                >Chứng minh nhân dân:
+              </nz-form-label>
+              <nz-form-control
+                [nzSm]="14"
+                [nzXs]="24"
+                nzErrorTip="Vui lòng nhập chứng minh ! "
+              >
+                <input
+                  class="form-input"
+                  size="40"
+                  [value]="benhNhan.cmnd"
+                  nz-input
+                  formControlName="cmnd"
+                />
+              </nz-form-control>
+            </nz-form-item>
+
+            <nz-form-item>
+              <nz-form-label [nzSm]="6" [nzXs]="24" nzRequired nzFor="hoTen"
+                >Họ tên
+              </nz-form-label>
+              <nz-form-control
+                [nzSm]="14"
+                [nzXs]="24"
+                nzErrorTip="Vui lòng nhập họ tên !"
+              >
+                <input
+                  class="form-input"
+                  size="40"
+                  [value]="benhNhan.hoTen"
+                  nz-input
+                  formControlName="hoTen"
+                />
+              </nz-form-control>
+            </nz-form-item>
+
+            <nz-form-item>
+              <nz-form-label [nzSm]="6" [nzXs]="24" nzRequired nzFor="ngaySinh"
+                >Ngày sinh</nz-form-label
+              >
+              <nz-form-control
+                [nzSm]="16"
+                [nzXs]="24"
+                nzErrorTip="Vui lòng chọn ngày sinh"
+              >
+                <nz-date-picker
+                  nzSize="40px"
+                  [nzDisabledDate]="disabledDate"
+                  [ngModel]="benhNhan.ngaySinh"
+                  formControlName="ngaySinh"
+                ></nz-date-picker>
+              </nz-form-control>
+            </nz-form-item>
+
+            <nz-form-item>
+              <nz-form-label [nzSm]="6" [nzXs]="24" nzRequired nzFor="gioiTinh"
+                >Giới Tính</nz-form-label
+              >
+              <nz-form-control
+                [nzSm]="16"
+                [nzXs]="24"
+                nzErrorTip="Chọn giới tính"
+              >
+                <nz-select
+                  nzAllowClear
+                  nzPlaceHolder="Vui lòng chọn giới tính"
+                  formControlName="gioiTinh"
+                  size="40"
+                  [ngModel]="benhNhan.gioiTinh"
+                >
+                  <nz-option nzValue="NAM" nzLabel="NAM"></nz-option>
+                  <nz-option nzValue="NỮ" nzLabel="NỮ"></nz-option>
+                </nz-select>
+              </nz-form-control>
+            </nz-form-item>
+
+            <nz-form-item>
+              <nz-form-label [nzSm]="6" [nzXs]="24" nzRequired nzFor="diaChi"
+                >Địa chỉ</nz-form-label
+              >
+              <nz-form-control
+                [nzSm]="14"
+                [nzXs]="24"
+                nzErrorTip="Vui lòng nhập địa chỉ !"
+              >
+                <input
+                  class="form-input"
+                  size="40"
+                  [value]="benhNhan.diaChi"
+                  nz-input
+                  formControlName="diaChi"
+                />
+              </nz-form-control>
+            </nz-form-item>
+
+            <nz-form-item>
+              <div class="outer">
+                <div class="inner">
+                  <a [routerLink]="listRoute">
+                    <button nz-button nzBlock class="btn-back">
+                      <i
+                        nz-icon
+                        nzType="left-circle"
+                        style="font-size: large"
+                        nzTheme="fill"
+                      ></i>
+                      Quay Lại
+                    </button>
+                  </a>
+                </div>
+                <div class="inner">
+                  <button nz-button class="btn-save" type="submit">
+                    <i
+                      nz-icon
+                      nzType="save"
+                      style="font-size: large"
+                      nzTheme="fill"
+                      class="icon-btn"
+                    ></i>
+                    Lưu
+                  </button>
+                </div>
+              </div>
+            </nz-form-item>
+          </div>
+          <div nz-col [nzSpan]="12">
+            <nz-form-item>
+              <nz-form-label
+                [nzSm]="6"
+                [nzXs]="24"
+                nzRequired
+                nzFor="soDienThoai"
+                >Số điện thoại
+              </nz-form-label>
+              <nz-form-control
+                [nzSm]="14"
+                [nzXs]="24"
+                nzErrorTip="Vui lòng nhập đúng số điện thoại !"
+              >
+                <input
+                  class="form-input"
+                  size="40"
+                  [value]="benhNhan.soDienThoai"
+                  nz-input
+                  formControlName="soDienThoai"
+                />
+              </nz-form-control>
+            </nz-form-item>
+
+            <nz-form-item>
+              <nz-form-label [nzSm]="6" [nzXs]="24" nzFor="email" nzRequired
+                >Email
+              </nz-form-label>
+              <nz-form-control
+                [nzSm]="14"
+                [nzXs]="24"
+                nzErrorTip="Vui lòng nhập đúng địa chỉ email ! "
+              >
+                <input
+                  class="form-input"
+                  size="40"
+                  [value]="benhNhan.email"
+                  nz-input
+                  formControlName="email"
+                />
+              </nz-form-control>
+            </nz-form-item>
+
+            <nz-form-item>
+              <nz-form-label [nzSm]="6" [nzXs]="24" nzFor="bhyt"
+                >Bảo hiểm y tế:
+              </nz-form-label>
+              <nz-form-control
+                [nzSm]="14"
+                [nzXs]="24"
+                nzErrorTip="Vui lòng nhập bảo hiểm y tế! "
+              >
+                <input
+                  class="form-input"
+                  size="40"
+                  [value]="benhNhan.bhyt"
+                  nz-input
+                  formControlName="bhyt"
+                />
+              </nz-form-control>
+            </nz-form-item>
+            <nz-form-item>
+              <nz-form-label [nzSm]="6" [nzXs]="24">Đối tượng: </nz-form-label>
+              <nz-form-control [nzSm]="14" [nzXs]="24">
+                <input
+                  class="form-input"
+                  size="40"
+                  disabled="true"
+                  [value]="this.benhNhan.doiTuong"
+                />
+              </nz-form-control>
+            </nz-form-item>
+            <nz-form-item>
+              <nz-form-label [nzSm]="6" [nzXs]="24" nzFor="hinhAnh">
+                Hình ảnh:
+              </nz-form-label>
+              <nz-form-control [nzSm]="14" [nzXs]="24">
+                <nz-upload
+                  [nzAction]="apiUpload"
+                  nzListType="picture-card"
+                  [(nzFileList)]="files"
+                  [nzShowButton]="!files.length"
+                  [nzCustomRequest]="customReq"
+                  [nzRemove]="removeHinhAnh"
+                >
+                  <i nz-icon nzType="plus" class="upload-icon"></i>
+                  <div class="ant-upload-text">Upload</div>
+                </nz-upload>
+              </nz-form-control>
+            </nz-form-item>
+          </div>
+        </nz-form-item>
+      </form>
+    </div>
+  </div>
+
+  <div class="group-kham">
+    <nz-tabset nzSize="lagre">
+      <nz-tab [nzTitle]="titleTabKham">
+        <ng-template #titleTabKham>
+          <div class="tab">
+            <i nz-icon nzType="container" nzTheme="outline"></i>
+            <span>Lịch sử bệnh án</span>
+          </div>
+        </ng-template>
+        <nz-table
+        #ajaxtable
+        nzNoResult="Không tìm thấy dữ liệu"
+        nzShowSizeChanger
+        nzBordered
+        [nzData]="datas"
+        [nzLoading]="loading"
+        [nzFrontPagination]="false"
+        [nzTotal]="total"
+        [(nzPageSize)]="pageSize"
+        [(nzPageIndex)]="pageIndex"
+        (nzPageIndexChange)="onPageChange()"
+        (nzPageSizeChange)="onPageChange(true)"
+      >
+        <thead (nzSortChange)="sort($event)" nzSingleSort>
+          <tr>
+            <th></th>
+            <th nzShowSort nzSortKey="maBA"><span>Mã bệnh án:</span></th>
+            <th nzShowSort nzSortKey="ngayLap"><span>Ngày</span></th>
+            <th nzShowSort nzSortKey="benhNhan">
+              <span>Chứng minh thư</span>
+            </th>
+            <th nzShowSort nzSortKey="nhanVien">
+              <span>Nhân Viên Lập</span>
+            </th>
+            <th>Thao tác</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr *ngFor="let data of ajaxtable.data">
+            <td>
+              <i
+                nz-icon
+                nzType="solution"
+                style="font-size: 30px; color: #1e90ff"
+                nzTheme="outline"
+              ></i>
+            </td>
+            <td>{{ data.maBA }}</td>
+            <td>{{ formatDate(data.ngayLap) }}</td>
+            <td>{{ data.benhNhan.cmnd }}</td>
+            <td>{{ data.nhanVien.hoTen }}</td>
+            <td>
+              <div class="outer">
+                <div class="inner">
+                  <a [routerLink]="getUrlEdit(data.maBA)">
+                    <button nz-button nzBlock class="btn-edit">
+                      <i
+                        nz-icon
+                        nzType="edit"
+                        nzTheme="fill"
+                        class="icon-btn"
+                      ></i>
+                      Chi tiết
+                    </button>
+                  </a>
+                </div>
+              </div>
+            </td>
+          </tr>
+        </tbody>
+      </nz-table>
+      </nz-tab>
+
+    </nz-tabset>
+  </div>
+</div>

@@ -1,0 +1,140 @@
+<div>
+  <nz-breadcrumb>
+    <nz-breadcrumb-item>
+      <a routerLink="/"> Trang chủ </a>
+    </nz-breadcrumb-item>
+    <nz-breadcrumb-item>
+      <a [routerLink]="listRoute"> {{ title }} </a>
+    </nz-breadcrumb-item>
+    <nz-breadcrumb-item> Chi Tiết </nz-breadcrumb-item>
+  </nz-breadcrumb>
+  <nz-page-header>
+    <nz-page-header-title>
+      <span style="color: aliceblue"
+        >Thông tin {{ title }}</span
+      ></nz-page-header-title
+    >
+  </nz-page-header>
+  <form nz-form [formGroup]="validateForm" (ngSubmit)="submitForm()">
+    <nz-form-item nz-row>
+      <div nz-col [nzSpan]="12">
+        <nz-form-item *ngIf="data">
+          <nz-form-label [nzSm]="6" [nzXs]="24" nzRequired nzFor="maPXV"
+            >Mã phiếu
+          </nz-form-label>
+          <nz-form-control
+            [nzSm]="14"
+            [nzXs]="24"
+            nzErrorTip="Vui lòng nhập mã có dạng (PXV-12345)"
+          >
+            <input
+              nz-input
+              [value]="data ? data.maPXV : ''"
+              formControlName="maPXV"
+              disabled
+            />
+          </nz-form-control>
+        </nz-form-item>
+
+        <nz-form-item>
+          <nz-form-label [nzSm]="6" [nzXs]="24" nzRequired nzFor="ngayLap"
+            >Ngày lập
+          </nz-form-label>
+          <nz-form-control
+            [nzSm]="16"
+            [nzXs]="24"
+            nzErrorTip="Vui lòng chọn thời gian!"
+          >
+            <nz-date-picker
+              [ngModel]="data ? data.ngayLap : null"
+              formControlName="ngayLap"
+              nzShowTime="true"
+              [nzDisabledDate]="disabledDate"
+            ></nz-date-picker>
+          </nz-form-control>
+        </nz-form-item>
+
+        <nz-form-item>
+          <nz-form-label [nzSm]="6" [nzXs]="24" nzRequired nzFor="lyDo"
+            >Lý do
+          </nz-form-label>
+          <nz-form-control
+            [nzSm]="14"
+            [nzXs]="24"
+            nzErrorTip="Vui lòng nhập lý do !"
+          >
+            <textarea
+              rows="4"
+              [value]="data ? data.lyDo : ''"
+              nz-input
+              formControlName="lyDo"
+            ></textarea>
+          </nz-form-control>
+        </nz-form-item>
+        <nz-form-item>
+          <nz-form-label [nzSm]="6" [nzXs]="24" nzFor="ghiChu"
+            >Ghi chú
+          </nz-form-label>
+          <nz-form-control [nzSm]="14" [nzXs]="24">
+            <textarea
+              rows="4"
+              [value]="data ? data.ghiChu : ''"
+              nz-input
+              formControlName="ghiChu"
+            ></textarea>
+          </nz-form-control>
+        </nz-form-item>
+      </div>
+      <div nz-col [nzSpan]="12">
+        <nz-form-item>
+          <nz-form-label [nzSm]="6" [nzXs]="24"> Bệnh án </nz-form-label>
+          <nz-form-control [nzSm]="14" [nzXs]="24">
+            {{ benhAn ? benhAn.maBA : '' }}
+          </nz-form-control>
+        </nz-form-item>
+        <nz-form-item>
+          <nz-form-label [nzSm]="6" [nzXs]="24"> Bệnh Nhân </nz-form-label>
+          <nz-form-control [nzSm]="14" [nzXs]="24">
+            {{ benhAn ? benhAn.benhNhan.hoTen : '' }}
+          </nz-form-control>
+        </nz-form-item>
+        <nz-form-item>
+          <nz-form-label [nzSm]="6" [nzXs]="24"> Chứng minh thư </nz-form-label>
+          <nz-form-control [nzSm]="14" [nzXs]="24">
+            {{ benhAn ? benhAn.benhNhan.cmnd : '' }}
+          </nz-form-control>
+        </nz-form-item>
+      </div>
+    </nz-form-item>
+
+    <nz-form-item nz-nz-row>
+      <div class="outer">
+        <div class="inner">
+          <a [routerLink]="listRoute">
+            <button nz-button nzBlock class="btn-back">
+              <i
+                nz-icon
+                nzType="left-circle"
+                style="font-size: large"
+                nzTheme="fill"
+              ></i>
+              Quay Lại
+            </button>
+          </a>
+        </div>
+        <div class="inner">
+          <button nz-button class="btn-save" type="submit">
+            <i
+              nz-icon
+              nzType="save"
+              style="font-size: large"
+              nzTheme="fill"
+              class="icon-btn"
+            ></i>
+            Lưu
+          </button>
+        </div>
+      </div>
+    </nz-form-item>
+  </form>
+</div>
